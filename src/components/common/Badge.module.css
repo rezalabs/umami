@@ -56,7 +56,7 @@
 
 :global([data-theme='dark']) .good {
   color: #86efac;
-  background: rgba(22, 163, 74, 0.15);
+  background: rgb(22 163 74 / 15%);
 }
 
 :global([data-theme='dark']) .good .dot {
@@ -65,7 +65,7 @@
 
 :global([data-theme='dark']) .warning {
   color: #fde047;
-  background: rgba(202, 138, 4, 0.15);
+  background: rgb(202 138 4 / 15%);
 }
 
 :global([data-theme='dark']) .warning .dot {
@@ -74,7 +74,7 @@
 
 :global([data-theme='dark']) .danger {
   color: #fca5a5;
-  background: rgba(220, 38, 38, 0.15);
+  background: rgb(220 38 38 / 15%);
 }
 
 :global([data-theme='dark']) .danger .dot {

@@ -10,13 +10,9 @@
 
 .view {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   overflow: auto;
   gap: 100px;
   padding-right: 20px;
@@ -206,8 +202,8 @@
   border-top: 3px solid var(--journey-line-color);
 }
 
-.start:before,
-.end:before {
+.start::before,
+.end::before {
   content: "";
   position: absolute;
   border-radius: 100%;
@@ -217,43 +213,43 @@
   height: 14px;
 }
 
-.line:not(.active) .start:before,
-.line:not(.active) .end:before {
+.line:not(.active) .start::before,
+.line:not(.active) .end::before {
   display: none;
 }
 
-.up .start:before {
+.up .start::before {
   left: -8px;
   top: -8px;
 }
 
-.up .end:before {
+.up .end::before {
   right: -8px;
   bottom: -8px;
 }
 
-.down .start:before {
+.down .start::before {
   left: -8px;
   bottom: -8px;
 }
 
-.down .end:before {
+.down .end::before {
   right: -8px;
   top: -8px;
 }
 
-.flat .start:before {
+.flat .start::before {
   left: -8px;
   top: -8px;
 }
 
-.flat .end:before {
+.flat .end::before {
   right: -8px;
   top: -8px;
 }
 
 .line.active .segment,
-.line.active .segment:before {
+.line.active .segment::before {
   border-color: var(--journey-active-color);
   z-index: 1;
 }
@@ -262,6 +258,6 @@
   border-color: var(--journey-faded-color);
 }
 
-.column.active .line:not(.active) .segment:before {
+.column.active .line:not(.active) .segment::before {
   display: none;
 }
