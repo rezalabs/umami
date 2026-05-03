@@ -10,15 +10,17 @@ export function LogoutPage() {
   const { post } = useApi();
 
   useEffect(() => {
-    async function logout() {
-      await post('/auth/logout');
-
-      window.location.href = `${process.env.basePath || ''}/login`;
-    }
-
     removeClientAuthToken();
     setUser(null);
-    logout();
+
+    post('/auth/logout').catch(() => {
+      // Server-side session cleanup is best-effort.
+      // Local state is already cleared so logout proceeds regardless.
+    });
+
+    const loginUrl = `${process.env.basePath || ''}/login`;
+
+    window.location.href = loginUrl;
   }, [router, post]);
 
   return null;

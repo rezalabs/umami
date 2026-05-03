@@ -18,7 +18,7 @@ import { setUser } from '@/store/app';
 export function LoginForm() {
   const { t, labels, getErrorMessage } = useMessages();
   const router = useRouter();
-  const { mutateAsync, error } = useUpdateQuery('/auth/login');
+  const { mutateAsync, error, isPending } = useUpdateQuery('/auth/login');
 
   const handleSubmit = async (data: any) => {
     await mutateAsync(data, {
@@ -59,7 +59,7 @@ export function LoginForm() {
             data-test="button-submit"
             variant="primary"
             style={{ flex: 1 }}
-            isDisabled={false}
+            isDisabled={isPending}
           >
             {t(labels.login)}
           </FormSubmitButton>
