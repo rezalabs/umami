@@ -16,7 +16,7 @@ describe('Login tests', () => {
         .find('input')
         .type(Cypress.env('umami_password'), { delay: 0 });
       cy.getDataTest('button-submit').click();
-      cy.url().should('eq', Cypress.config().baseUrl + '/dashboard');
+      cy.url().should('eq', `${Cypress.config().baseUrl}/dashboard`);
       cy.logout();
     },
   );

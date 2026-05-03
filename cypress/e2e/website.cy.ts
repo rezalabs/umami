@@ -53,7 +53,7 @@ describe('Website tests', () => {
     cy.get('div')
       .contains(/Tracking code/i)
       .click();
-    cy.get('textarea').should('contain.text', Cypress.config().baseUrl + '/script.js');
+    cy.get('textarea').should('contain.text', `${Cypress.config().baseUrl}/script.js`);
 
     // clean-up data
     cy.get('div')

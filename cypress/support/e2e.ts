@@ -8,7 +8,7 @@ Cypress.Commands.add('getDataTest', (value: string) => {
 Cypress.Commands.add('logout', () => {
   cy.getDataTest('button-profile').click();
   cy.getDataTest('item-logout').click();
-  cy.url().should('eq', Cypress.config().baseUrl + '/login');
+  cy.url().should('eq', `${Cypress.config().baseUrl}/login`);
 });
 
 Cypress.Commands.add('login', (username: string, password: string) => {
