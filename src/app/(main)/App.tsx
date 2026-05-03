@@ -31,15 +31,17 @@ export function App({ children }) {
     }
   }, [teamId, teamError, router]);
 
-  if (isLoading || !config || (teamId && isTeamLoading)) {
-    return <Loading placement="absolute" />;
-  }
-
   if (error) {
-    window.location.href = config.cloudMode
+    const loginUrl = config?.cloudMode
       ? `${process.env.cloudUrl}/login`
       : `${process.env.basePath || ''}/login`;
+
+    window.location.href = loginUrl;
     return null;
+  }
+
+  if (isLoading || !config || (teamId && isTeamLoading)) {
+    return <Loading placement="absolute" />;
   }
 
   if (!user || !config) {

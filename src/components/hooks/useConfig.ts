@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useApi } from '@/components/hooks/useApi';
 import { setConfig, useApp } from '@/store/app';
+import debug from 'debug';
+
+const log = debug('umami:useConfig');
 
 export type Config = {
   cloudMode: boolean;
@@ -18,9 +21,13 @@ export function useConfig(): Config {
   const { get } = useApi();
 
   async function loadConfig() {
-    const data = await get(`/config`);
+    try {
+      const data = await get(`/config`);
 
-    setConfig(data);
+      setConfig(data);
+    } catch (e) {
+      log('Failed to load config', e);
+    }
   }
 
   useEffect(() => {
