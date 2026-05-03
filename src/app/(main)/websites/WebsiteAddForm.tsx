@@ -15,12 +15,16 @@ export function WebsiteAddForm({
   const { mutateAsync, error, isPending } = useUpdateQuery('/websites', { teamId });
 
   const handleSubmit = async (data: any) => {
-    await mutateAsync(data, {
-      onSuccess: async () => {
-        onSave?.();
-        onClose?.();
-      },
-    });
+    try {
+      await mutateAsync(data, {
+        onSuccess: async () => {
+          onSave?.();
+          onClose?.();
+        },
+      });
+    } catch {
+      // Error surfaced through Form's error prop
+    }
   };
 
   return (
