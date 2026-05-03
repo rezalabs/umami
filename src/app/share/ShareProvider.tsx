@@ -2,9 +2,10 @@
 import { useShareTokenQuery } from '@/components/hooks';
 import { ENTITY_TYPE } from '@/lib/constants';
 import type { WhiteLabel } from '@/lib/types';
-import { Loading } from '@umami/react-zen';
+import { Column, Heading, Loading } from '@umami/react-zen';
 import { usePathname, useRouter } from 'next/navigation';
 import { createContext, type ReactNode, useEffect } from 'react';
+import { getSharePath } from '@/lib/share';
 
 export interface ShareData {
   shareId: string;
@@ -39,20 +40,8 @@ const ALL_SECTION_IDS = [
   'attribution',
 ];
 
-function getSharePath(pathname: string) {
-  const segments = pathname.split('/');
-  const firstSegment = segments[3];
-
-  // If first segment looks like a domain name, skip it
-  if (firstSegment?.includes('.')) {
-    return segments[4];
-  }
-
-  return firstSegment;
-}
-
 export function ShareProvider({ slug, children }: { slug: string; children: ReactNode }) {
-  const { share, isLoading, isFetching } = useShareTokenQuery(slug);
+  const { share, isLoading, isFetching, error } = useShareTokenQuery(slug);
   const router = useRouter();
   const pathname = usePathname();
   const path = getSharePath(pathname);
@@ -75,12 +64,30 @@ export function ShareProvider({ slug, children }: { slug: string; children: Reac
     }
   }, [shouldRedirect, slug, allowedSections, router]);
 
+  if (error) {
+    return (
+      <Column
+        width="100%"
+        height="100vh"
+        justifyContent="center"
+        alignItems="center"
+        role="alert"
+      >
+        <Heading>Share not found</Heading>
+      </Column>
+    );
+  }
+
   if (isFetching && isLoading) {
     return <Loading placement="absolute" />;
   }
 
-  if (!share || shouldRedirect) {
+  if (shouldRedirect) {
     return null;
+  }
+
+  if (!share) {
+    return <Loading placement="absolute" />;
   }
 
   return <ShareContext.Provider value={{ ...share, slug }}>{children}</ShareContext.Provider>;

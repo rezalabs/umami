@@ -25,6 +25,7 @@ import { ENTITY_TYPE } from '@/lib/constants';
 import { Column, Grid, Row, useTheme } from '@umami/react-zen';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getSharePath } from '@/lib/share';
 import { ShareFooter } from './ShareFooter';
 import { ShareNav } from './ShareNav';
 
@@ -45,18 +46,6 @@ const PAGE_COMPONENTS: Record<string, React.ComponentType<{ websiteId: string }>
   revenue: RevenuePage,
   attribution: AttributionPage,
 };
-
-function getSharePath(pathname: string) {
-  const segments = pathname.split('/');
-  const firstSegment = segments[3];
-
-  // If first segment looks like a domain name, skip it
-  if (firstSegment?.includes('.')) {
-    return segments[4];
-  }
-
-  return firstSegment;
-}
 
 export function SharePage() {
   const [navCollapsed, setNavCollapsed] = useState(
