@@ -44,6 +44,7 @@
     "cypress-run": "cypress run cypress run",
     "seed-data": "tsx scripts/seed-data.ts",
     "lint": "biome lint .",
+    "lint:css": "stylelint \"src/**/*.css\"",
     "format": "biome format --write .",
     "check": "biome check --write"
   },
@@ -147,6 +148,8 @@
     "rollup-plugin-node-externals": "^8.1.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "stylelint": "^17.9.1",
+    "stylelint-config-standard": "^40.0.0",
     "tar": "^7.5.13",
     "ts-jest": "^29.4.6",
     "ts-morph": "^27.0.2",
