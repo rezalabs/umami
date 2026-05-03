@@ -59,7 +59,7 @@ async function relationalQuery(
       join (
         select distinct on (visit_id)
           visit_id,
-          url_path
+          concat(website_event.hostname, website_event.url_path) as url_path
         from website_event
         where website_event.website_id = {{websiteId::uuid}}
           and website_event.created_at between {{startDate}} and {{endDate}}
@@ -72,7 +72,7 @@ async function relationalQuery(
 
   return rawQuery(
     `
-    select ${column} x,
+    select ${column === 'url_path' ? "concat(website_event.hostname, website_event.url_path)" : column} x,
       count(distinct website_event.session_id) as y
     from website_event
     ${cohortQuery}
@@ -124,7 +124,7 @@ async function clickhouseQuery(
 
       entryExitQuery = `
       JOIN (select visit_id,
-          ${aggregrate}(url_path, created_at) url_path
+          ${aggregrate}(concat(hostname, url_path), created_at) url_path
       from website_event
       where website_id = {websiteId:UUID}
         and created_at between {startDate:DateTime64} and {endDate:DateTime64}
@@ -134,7 +134,7 @@ async function clickhouseQuery(
     }
 
     sql = `
-    select ${column} x, 
+    select ${column === 'url_path' ? 'concat(hostname, url_path)' : column} x, 
       uniq(website_event.session_id) as y
     from website_event
     ${cohortQuery}

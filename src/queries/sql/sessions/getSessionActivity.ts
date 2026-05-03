@@ -22,7 +22,7 @@ async function relationalQuery(websiteId: string, sessionId: string, filters: Qu
     `
     select
       created_at as "createdAt",
-      url_path as "urlPath",
+      concat(hostname, url_path) as "urlPath",
       url_query as "urlQuery",
       referrer_domain as "referrerDomain",
       event_id as "eventId",
@@ -54,7 +54,7 @@ async function clickhouseQuery(websiteId: string, sessionId: string, filters: Qu
     `
     select
       created_at as createdAt,
-      url_path as urlPath,
+      concat(hostname, url_path) as urlPath,
       url_query as urlQuery,
       referrer_domain as referrerDomain,
       event_id as eventId,

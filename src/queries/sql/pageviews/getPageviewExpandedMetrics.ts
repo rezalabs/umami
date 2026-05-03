@@ -87,7 +87,7 @@ async function relationalQuery(
       sum(${getTimestampDiffSQL('t.min_time', 't.max_time')}) as "totaltime"
     from (
       select
-        ${column} as "name",
+        ${column === 'url_path' ? "concat(website_event.hostname, website_event.url_path)" : column} as "name",
         website_event.session_id,
         website_event.visit_id,
         count(*) as "c",
@@ -103,7 +103,7 @@ async function relationalQuery(
       and website_event.event_type NOT IN (2, 5)
         ${excludeDomain}
         ${filterQuery}
-      group by ${column}, website_event.session_id, website_event.visit_id
+      group by 1, website_event.session_id, website_event.visit_id
     ) as t
     where name != ''
     group by name 
@@ -145,7 +145,7 @@ async function clickhouseQuery(
 
     entryExitQuery = `
       JOIN (select visit_id,
-          ${aggregrate}(url_path, created_at) url_path
+          ${aggregrate}(concat(hostname, url_path), created_at) url_path
       from website_event
       where website_id = {websiteId:UUID}
         and created_at between {startDate:DateTime64} and {endDate:DateTime64}
@@ -165,7 +165,7 @@ async function clickhouseQuery(
       sum(max_time-min_time) as "totaltime"
     from (
       select
-        ${column} name,
+        ${column === 'url_path' ? "concat(hostname, url_path)" : column} name,
         session_id,
         visit_id,
         count(*) c,
